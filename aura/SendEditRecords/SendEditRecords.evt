@@ -1,0 +1,9 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="Id" type="Id"/>
+    <aura:attribute name="FirstName" type="String"/>
+    <aura:attribute name="LastName" type="String"/>
+    <aura:attribute name="Email" type="String"/>
+    <aura:attribute name="Status" type="String"/>
+    <aura:attribute name="AccountId" type="Id"/>
+
+</aura:event>

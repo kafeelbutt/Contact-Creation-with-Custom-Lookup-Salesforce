@@ -1,0 +1,24 @@
+<aura:component controller="ContactController" implements="force:appHostable" >
+    <aura:registerEvent name="dataTransfer" type="c:InsertorNot"/>
+    <aura:handler action="{!c.replaceRecords}" event="c:SendEditRecords" />
+    <aura:handler name="init" value="{!this}" action="{!c.populateOptions}"/>
+    <aura:attribute name="selectedLookUpRecord" type="sObject" default="{}"/>
+    <aura:attribute name="objContact" type="contact" default="{'sobjectType':'contact'}"/>
+    <aura:attribute name="selOption" type="String"/>
+    <aura:attribute name="options" type="List" default="[]"/>
+    <aura:attribute name="lookupNull" type="Boolean" default="true"/>
+    <aura:method name="validateContact"  action="{!c.validateContactFields}"/>
+    <lightning:card title="Contact Creation">
+        <div class="slds-m-around_large">
+            <lightning:input aura:id="formFieldToValidate" value="{!v.objContact.FirstName}" type="text" label="First Name" messageWhenValueMissing="Contact's First Name is Mandatory" required="true"/>
+            <lightning:input aura:id="formFieldToValidate" value="{!v.objContact.LastName}" type="text" label="Last Name" messageWhenValueMissing="Contact's Last Name is Mandatory" required="true"/>
+            <lightning:input aura:id="formFieldToValidate" name="emailField" type="email" value="{!v.objContact.Email}" messageWhenValueMissing="Contact's Email is Mandatory" messageWhenBadInput="Please Enter Valid Email" label="Email" required="true"/>
+            <c:customLookup aura:id="getSelecteValue" objectAPIName="account" IconName="standard:account" label="Account Name" selectedRecord="{!v.selectedLookUpRecord}" lookupNull="{!v.lookupNull}"/>
+            <br/>
+            <button class="slds-utton slds-button_brand" onclick="{!c.saveContactRecord}">Save Contact</button>
+        </div>
+    </lightning:card>
+    <div>
+        <c:showContacts/>
+    </div>
+</aura:component>

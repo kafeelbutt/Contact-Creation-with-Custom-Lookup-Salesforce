@@ -1,0 +1,32 @@
+public class ContactController {
+    @AuraEnabled
+    public static void saveContact(Contact con){
+        insert con;
+    }
+    @AuraEnabled
+    public static void updateRecords(Contact con){
+        update con;
+    }
+    @AuraEnabled
+    public static sObject getObject(Id AccountId){
+        sObject accountObj = [Select Id,Name from Account where Id = :AccountId];
+        return accountObj;
+    }
+    @AuraEnabled
+    public static List<Map<String,String>> getStatusValues(){
+        List<Map<String,String>> returnList = new List<Map<String,String>>();
+        Map<String,String> statusList = new Map<String,String>();
+        List<String> statusValues = new List<String>();
+        Schema.DescribeFieldResult fieldResult = Contact.Status__c.getDescribe();
+        List<Schema.PicklistEntry> picklistEntries = fieldResult.getPicklistValues();
+        for(Schema.PicklistEntry picklistValue: picklistEntries){
+            statusList.put('label', picklistValue.getLabel());
+            statusList.put('value', picklistValue.getLabel());
+            returnList.add(statusList);
+            statusList = new Map<String,String>();
+        }
+        system.debug(returnList);
+        return returnList;
+    }
+
+}

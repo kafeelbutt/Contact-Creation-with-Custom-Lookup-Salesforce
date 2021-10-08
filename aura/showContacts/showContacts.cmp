@@ -1,0 +1,21 @@
+<aura:component controller="customLookUpController">
+    <aura:attribute name="results" type="List[]"/>
+    <aura:attribute name="mycolumns" type="List"/>
+    <aura:attribute name="isInserted" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    <aura:attribute name="isLoading" type="Boolean" default="false" />
+    <aura:registerEvent name="dataTransfer" type="c:SendEditRecords"/>
+    <aura:handler action="{!c.getEvents}" event="c:InsertorNot"/>
+    <aura:if isTrue="{! v.isLoading }">
+        <lightning:spinner alternativeText="Loading" />
+    </aura:if> 
+    <lightning:layout multipleRows="true" horizontalAlign="center">
+        <lightning:layoutItem padding="around-small" size="12">             
+            <lightning:datatable keyField="Id" data="{!v.results}"
+                                 columns="{!v.mycolumns}"
+                                 resizeColumnDisabled="true"
+                                 hideCheckboxColumn="true"
+                                 onrowaction="{!c.handleRowAction}"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

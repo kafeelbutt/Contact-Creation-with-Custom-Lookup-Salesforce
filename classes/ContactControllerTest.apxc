@@ -1,0 +1,38 @@
+@isTest
+public class ContactControllerTest {
+    @testSetup
+    static void testSetup(){
+        Contact newContact = new Contact(LastName='Kafeel');
+        insert newContact;
+        Account newAccount = new Account(Name='OcloudSolutions');
+        insert newAccount;
+    }
+    @isTest
+    static void saveContacttest(){
+        Contact newContact = new Contact(LastName='Kafeel');
+        ContactController.saveContact(newContact);
+        
+    }
+    @isTest
+    static void updateContacttest(){
+        Contact contactObject = [Select Id from Contact where LastName='Kafeel'];
+        contactObject.LastName='Aqeel';
+        ContactController.updateRecords(contactObject);
+        
+    }
+    @isTest
+    static void getObjecttest(){
+        Account result;
+        Account accountObject = [Select Id, Name from Account where Name='OcloudSolutions'];
+        result=(Account)ContactController.getObject(accountObject.Id);
+        System.assertEquals(result, accountObject);
+        
+    }
+    @isTest
+    static void getStatusValuesTest(){
+        List<Map<String,String>> resultOfStatusField = ContactController.getStatusValues();
+        System.assert(resultOfStatusField!=Null);
+    }
+
+
+}

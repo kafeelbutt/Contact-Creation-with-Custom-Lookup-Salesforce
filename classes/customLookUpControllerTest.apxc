@@ -1,0 +1,35 @@
+@isTest
+public class customLookUpControllerTest {
+    @testSetup
+    static void testSetup(){
+        Account newAccount = new Account(Name='Kafeel');
+        insert newAccount;
+        Contact newContact = new Contact(LastName='Kafeel');
+        insert newContact;
+    }
+    @isTest
+    static void fetchLookUpValuesTest(){
+        List<Account> AccountTestList = (List<Account>)customLookupController.fetchLookUpValues('kaf','Account');
+        for(Account account: AccountTestList){
+            if(account.Name=='Kafeel'){
+                System.assertEquals('Kafeel',account.Name);
+                break;
+            }
+        }
+        
+    }
+    @isTest
+    static void getContactDataTest(){
+        List<Contact> returnContact = customLookupController.getContactData();
+        System.assertNotEquals(Null,returnContact);
+        //System.assert(returnContact!=Null);
+    }
+    @isTest
+    static void delContactTest(){
+        Contact testContact = [Select Id, LastName from Contact where LastName='Kafeel'];
+        customLookupController.delContact(testContact);
+        List<Contact> testContactList = [Select Id, LastName from Contact where LastName='Kafeel'];
+        System.assertEquals(0, testContactList.size());
+    }
+
+}
