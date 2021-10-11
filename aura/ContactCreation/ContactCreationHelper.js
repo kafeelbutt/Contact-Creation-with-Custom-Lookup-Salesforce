@@ -31,12 +31,14 @@
                 var appEvent = $A.get("e.c:InsertorNot");
                 appEvent.setParams({"isInserted":true});
                 appEvent.fire();
-                component.set("v.objContact.Id",'');
+                component.set("v.objContact.Id",undefined);
                 component.set("v.objContact.AccountId",'');
                 component.set("v.objContact.FirstName",'');
                 component.set("v.objContact.LastName",'');
                 component.set("v.objContact.Email",'');
                 component.set("v.selOption",'');
+                var clearValue = component.find("getSelecteValue");
+                clearValue.clearLookupValue();
             }
             });
         }

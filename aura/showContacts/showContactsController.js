@@ -21,14 +21,15 @@
                 helper.editRecord(component, event,helper);
                 break;
             case 'delete':
-                helper.deleteRecord(component, event);
+                helper.deleteRecord(component, event, helper);
                 break;
         }
     },
+    
     getEvents : function(component, event, helper) {
         var evtValue = event.getParam("isInserted");
         if(evtValue===true){
-            helper.pullData(component);
+            helper.pullData(component,helper);
         }
     }
 });

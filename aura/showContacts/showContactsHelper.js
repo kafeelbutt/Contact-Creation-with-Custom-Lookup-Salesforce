@@ -1,5 +1,5 @@
 ({  
-    pullData:function(component){
+    pullData:function(component,helper){
         component.set("v.isLoading", true);
         var action=component.get("c.getContactData");       
         action.setCallback(this,function(e){
@@ -33,29 +33,36 @@
         appEvent.fire();
         //$A.get("e.force:editRecord").setParams({"recordId": recordId}).fire();
     },
-    deleteRecord : function(component, event) {
+    deleteRecord : function(component, event, helper) {
         component.set("v.isLoading", true);
         var action = event.getParam('action');
-        var contactRec = event.getParam('row');        
-        var action = component.get("c.delContact");
-        action.setParams({
-            "contactRec": contactRec
-        });
-        action.setCallback(this, function(response) {
-            component.set("v.isLoading", false);
-            if (response.getState() === "SUCCESS" ){
-            var rows = component.get('v.results');
-            var rowIndex = rows.indexOf(contactRec);
-            rows.splice(rowIndex, 1);
-            component.set('v.results', rows);
-            this.showToast("Success!","success","The record has been delete successfully.");
+        var contactRec = event.getParam('row');
+        var modalFooter;
+        $A.createComponents([
+            ["c:deleteModalComponent",{}]
+        ], function(components,status){
+            if(status==="SUCCESS"){
+                modalFooter = components[0];
+                modalFooter.set("v.objContact.Id",contactRec.Id);
+                modalFooter.find('modalLib').showCustomModal({
+                    header:"Delete Contact",
+                    body:"Are you sure want to delete this Contact?",
+                    footer:modalFooter,
+                    howCloseButton: true,
+                    cssClass: "my-modal,my-custom-class,my-other-class",
+                    closeCallback:function(){
+                        component.set("v.isLoading", false);
+                        helper.pullData(component,helper);
+                        //var rows = component.get('v.results');
+                        //var rowIndex = rows.indexOf(contactRec);
+                        //rows.splice(rowIndex, 1);
+                        //component.set('v.results', rows);
+                        }
+                });
             }
-            else {
-                this.showToast("ERROR","error",JSON.stringify(response.getError()));
-            }
-        });
-        $A.enqueueAction(action);
+        });   
     },
+    
     showToast:function(title,type,message){
         var toastEvent = $A.get("e.force:showToast");
         if(toastEvent){

@@ -1,0 +1,6 @@
+<aura:component controller="customLookUpController">
+    <aura:attribute name="objContact" type="contact" default="{'sobjectType':'contact'}"/>
+    <lightning:overlayLibrary aura:id="modalLib"/>
+    <lightning:button name="cancel" label="Cancel" onclick="{!c.handleCancel}"/>
+    <lightning:button name="ok" label="OK" variant="brand" onclick="{!c.handleOK}"/>
+</aura:component>
